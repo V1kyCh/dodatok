@@ -24,7 +24,6 @@
   max-width: 100%;
 }
 
-
 .backdrop {
   position: fixed;
   top: 0;
@@ -40,10 +39,25 @@
   background-color: #fff;
   width: 400px;
   height: 300px;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .modal__title {
   text-align: center;
 }
+.modal__close-btn {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+.modal__img {
+  width: 250px;
+}
+
 .is-hidden {
-    display: none;
-  }
+  opacity: 0;
+  pointer-events: none;
+}

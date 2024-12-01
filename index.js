@@ -1,4 +1,6 @@
 const dynamicList = document.getElementById('list');
+const backdrop = document.querySelector('.backdrop')
+const closeBtn = document.querySelector('.modal__close-btn')
 
 const items = [
     {
@@ -25,8 +27,8 @@ const items = [
     }, {
         name: 'pineapple',
         price: 400,
-        photo: 'https://bazarekpolski.pl/wp-content/uploads/2020/10/ananas-600x600.jpg'
-    },{
+        photo: 'https://www.ogbete.com.ng/wp-content/uploads/2020/06/fresh-pineapple-281kg-29-500x500.png'
+    }, {
         name: 'strawberry',
         price: 180,
         photo: 'https://weresmartworld.com/sites/default/files/styles/full_screen/public/2021-05/aardbeien-3.jpg?itok=VKyyMjjg'
@@ -43,24 +45,42 @@ const items = [
 
 
 function createList() {
-    
-    const markup = items.map((product) => 
-    `<li class="products__card">
+
+    const markup = items.map((product) =>
+        `<li class="products__card">
         <h3 class="prosucts__title">Назва:${product.name}</h3>
         <h4 class="prosucts__price">Ціна: ${product.price}</h4>
-        <img class="products__img" src="${product.photo}" alt="">
+        <img class="products__img" src="${product.photo}" alt="" data-photo="${product.photo}">
     </li>`
     ).join('');
-  dynamicList.innerHTML = markup;
-  return markup
+    dynamicList.innerHTML = markup;
+    return markup
 }
 console.log(createList());
 
+dynamicList.addEventListener('click', openInfoModal);
 
-function openInfoModal() {
-    dynamicList.addEventListener('click',(e) => {
-        document.querySelector('backdrop').classList.toggle('is-hidden')
+function openInfoModal(e) {
+    // if (e.target.nodeName === 'LI') {            // перевірка спрацює лише при кліку на тег li, при кліку на дітей li - не спрацює
+    if (e.target.closest('li')) {
+        backdrop.classList.remove('is-hidden')
+        dynamicList.removeEventListener('click', openInfoModal)
+        closeBtn.addEventListener('click', closeInfoModal)
     }
-    );
+    const parent = e.target.closest('li');
+    const productPhoto = parent.lastElementChild.dataset.photo
+    const modalPhoto = document.querySelector('.modal__img')
+
+    modalPhoto.src = productPhoto
 }
+
+function closeInfoModal(e) {
+    backdrop.classList.add('is-hidden')
+    closeBtn.removeEventListener('click', closeInfoModal)
+    dynamicList.addEventListener('click', openInfoModal)
+
+}
+
+
+
 
